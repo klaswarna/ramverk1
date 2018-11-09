@@ -6466,3 +6466,10 @@ a.rm-button.rm-clicked .rm-button-face-2 {
 /**
  * My settings.
  */
+
+.lilltabell,
+.lilltabell td,
+.lilltabell tr
+  {
+    border: solid 1px;
+}
