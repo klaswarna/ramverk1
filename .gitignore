@@ -1,5 +1,6 @@
 /.bin
 /build
 /vendor
+/src/Models/access_key.php
 memory::
 composer.lock

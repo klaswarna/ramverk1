@@ -53,5 +53,10 @@ return [
             "url" => "ipweb",
             "title" => "IP-koll",
         ],
+        [
+            "text" => "Geotag IP",
+            "url" => "geotag",
+            "title" => "Geotag IP",
+        ],
     ],
 ];
