@@ -58,5 +58,10 @@ return [
             "url" => "geotag",
             "title" => "Geotag IP",
         ],
+        [
+            "text" => "Väder",
+            "url" => "weather",
+            "title" => "Väder",
+        ],
     ],
 ];
