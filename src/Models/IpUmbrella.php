@@ -33,13 +33,6 @@ class IpUmbrella
         $this->ipCheckCoordinates = new IpCheckCoordinates;
     }
 
-
-
-    /*private $ipValidate = new IpValidate;
-    private $ipType = new IpType;
-    private $ipDomainname = new IpDomainname;
-    private $ipCheckCoordinates = new IpCheckCoordinates;*/
-
     /**
      * Check ip-type sdf saf sdf safd fsda
      *
@@ -47,16 +40,6 @@ class IpUmbrella
      */
     public function input(string $ipnumber)
     {
-        /*$this->ipobject["number"] = $ipnumber;
-        $this->ipobject["valid"] = IpValidate::validate($ipnumber);
-
-
-        if ($this->ipobject["valid"]) {
-            $this->ipobject["type"] = IpType::ipType($ipnumber);
-            $this->ipobject["domainname"] = IpDomainname::ipDomainname($ipnumber);
-            list($this->ipobject["latitude"], $this->ipobject["longitude"], $this->ipobject["country"], $this->ipobject["city"])
-                = IpCheckCoordinates::ipCheckCoordinates($ipnumber);
-        }*/
 
         $this->ipobject["number"] = $ipnumber;
         $this->ipobject["valid"] = $this->ipValidate->validate($ipnumber);

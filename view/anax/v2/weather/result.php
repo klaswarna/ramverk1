@@ -4,9 +4,10 @@ namespace Anax\View;
 
 ?>
 
-<p>Väderresultat:</p>
+<p>Väderresultat med början <?=($res["type"] == "future" ? "idag" : "för 30 dagar sedan") ?>:</p>
 <table class="lilltabell">
 <th>dag</th>
+<th>time</th>
 <th>Vädersummering</th>
 <th>Högsta temperatur</th>
 <th>Lägsta temperatur</th>
@@ -15,10 +16,11 @@ namespace Anax\View;
 foreach ($res["weatherresult"]->daily->data as $key => $value) { ?>
     <tr>
         <td><?=$key?></td>
-        <td><?=$value->summary?></td>
-        <td><?=$value->temperatureHigh?></td>
-        <td><?=$value->temperatureLow?></td>
-        <td><?=$value->windSpeed?></td>
+        <td><?=$value->time?></td>
+        <td><?=$value->summary ?? "---"?></td>
+        <td><?=$value->temperatureHigh ?? "---" ?></td>
+        <td><?=$value->temperatureLow ?? "---"?></td>
+        <td><?=$value->windSpeed ?? "---"?></td>
     </tr>
 
 <?php } ?>
@@ -26,9 +28,9 @@ foreach ($res["weatherresult"]->daily->data as $key => $value) { ?>
 </table>
 Stad: <?=$res["city"]?><br>
 Land: <?=$res["country"]?>
-<div class="osynlig">
-    <div id="longitude"><?=$res["longitude"]?></div>
-    <div id="latitude"><?=$res["latitude"]?></div>
+<div class="nosynlig">
+    <div>Longitud:</div><div id="longitude"><?=$res["longitude"]?></div>
+    <div>Latitud:</div><div id="latitude"><?=$res["latitude"]?></div>
 </div>
 
 <br>

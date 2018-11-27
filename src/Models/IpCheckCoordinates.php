@@ -9,16 +9,26 @@ class IpCheckCoordinates
      *
      * @return array
      */
+
+     public function __construct () {
+         $this->apiKeys = new \KW\config\ApiKeys;
+         $this->ipCheckKey = $this->apiKeys->ipCheck;
+         $this->baseUrl = "http://api.ipstack.com/";
+    }
+
+
     public function ipCheckCoordinates(string $ipnumber)
     {
-        require 'access_key.php'; //laddar $access_key med hemlig nyckel som inte läggs ut
-        $accessKey = $accessKey; //för att lura validatorn
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, "http://api.ipstack.com/" . $ipnumber . "?access_key=" . $accessKey);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $result = curl_exec($curl);
-        curl_close($curl);
+        $accessKey = $this->ipCheckKey;
+        $url = ($this->baseUrl . $ipnumber . "?access_key=" . $accessKey);
+        //$curl = curl_init();
+        //curl_setopt($curl, CURLOPT_URL, "http://api.ipstack.com/" . $ipnumber . "?access_key=" . $accessKey);
+        //curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        //$result = curl_exec($curl);
+        //curl_close($curl);
 
+        $cURL = new CURL;
+        $result = $cURL->req($url);
         $result = json_decode($result);
 
         return array($result->latitude, $result->longitude, $result->country_name, $result->city);

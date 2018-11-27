@@ -9,24 +9,47 @@ class DarkSky
      *
      * @return json
      */
-    public function weather($longitude, $latitude)
+
+    public function __construct () {
+        $this->apiKeys = new \KW\config\ApiKeys;
+        $this->darkSkyKey = $this->apiKeys->darkSky;
+        $this->baseUrl = "https://api.darksky.net/forecast/";
+        $this->apiSettings = "?lang=sv&units=si";
+    }
+
+
+    public function weather($longitude, $latitude, $type)
     {
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, "https://api.darksky.net/forecast/8fc8b212a2c3531bdd01693e25e1442f/"
-        . $latitude . "," . $longitude . "?lang=sv&units=si");
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $result = curl_exec($curl);
-        curl_close($curl);
+        if ($type=="future") {
+            $url = ($this->baseUrl . $this->darkSkyKey . "/" . $latitude . "," . $longitude . $this->apiSettings);
+            $cURL = new CURL;
+            $result = $cURL->req($url);
+            $result = json_decode($result);
+            //echo("lonlat:" . $longitude . $latitude);
+            //die;
+            return $result;
+        } else {
+            $multi = new MultiCurl;
 
-        $result = json_decode($result);
+            $result = $multi->multicurla($longitude, $latitude);
+            return $result;
 
-        return $result;
+            /*$result = array(
+                "daily" => array(
+                    "data" => array()
+                )
+            );
+            $datum = time();
+            for ($i=0; $i < 30; $i++) {
+                $aktuellsekund = $datum - 30*86400 + $i*86400;
+                $url = ($this->baseUrl . $this->darkSkyKey . "/" . $latitude . "," . $longitude . "," . $aktuellsekund . $this->apiSettings);
+                $cURL = new CURL;
+                $svar = $cURL->req($url);
+                $svar = json_decode($svar);
+                $result['daily']['data'][$i] = $svar->daily->data[0];
+            }
+            $result = json_decode(json_encode($result));
+            return $result;*/
+        }
     }
 }
-
-
-
-// https://api.darksky.net/forecast/8fc8b212a2c3531bdd01693e25e1442f/55.72927,13.20621?lang=sv&units=si
-
-
-//fixa get koord, get type (framtid eller baktid),

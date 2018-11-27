@@ -12,9 +12,7 @@ class DarkSkyUmbrella
     public $weatherobject = array(
         "ip"=>"",
         "valid"=>false,
-        "key"=> "8fc8b212a2c3531bdd01693e25e1442f",
-        "time"=>"",
-        "type" => "future",
+        "type" => "",
         "latitude" => 0,
         "longitude" => 0,
         "city"=>"",
@@ -26,7 +24,6 @@ class DarkSkyUmbrella
     protected $ipType;
     protected $ipCheckCoordinates;
     protected $OSMR;
-    protected $weatherTime;
     protected $darkSky;
 
     public function __construct()
@@ -34,9 +31,7 @@ class DarkSkyUmbrella
         $this->ipValidate = new IpValidate;
         $this->ipType = new IpType;
         $this->ipCheckCoordinates = new IpCheckCoordinates;
-
         $this->OSMR = new OpenStreetMapReverse;
-        $this->weatherTime = new WeatherTime;
         $this->darkSky = new DarkSky;
     }
 
@@ -48,14 +43,24 @@ class DarkSkyUmbrella
      */
     public function input($longitude, $latitude, $type, $ipn)
     {
-
-        $this->weatherobject["time"] = $this->weatherTime->check($type);
-
-        if ($ipn!="") {
-            $this->weatherobject["valid"] = $this->ipValidate->validate($ipn);
+        if (($longitude == "" or $latitude == "") and $ipn=="") {
+            exit("Du måste mata in longitud och latitud!");
+        };
+        if (abs($longitude) >= 180 or abs($latitude) >= 90) {
+            exit("Du matade in en felaktiga kooridnater!");
+        };
+        $this->weatherobject["type"] = $type;
+        if ($ipn != "") {
+            $this->weatherobject["valid"] = $this->ipValidate->validate($ipn);    
             if ($this->weatherobject["valid"]) {
-                list($this->weatherobject["latitude"], $this->weatherobject["longitude"], $this->weatherobject["country"], $this->weatherobject["city"])
+                list($this->weatherobject["latitude"], $this->weatherobject["longitude"],
+                    $this->weatherobject["country"], $this->weatherobject["city"])
                     = $this->ipCheckCoordinates->ipCheckCoordinates($ipn);
+                    if ($this->weatherobject["country"] == "" and $this->weatherobject["latitude"] == 0 and $this->weatherobject["latitude"] == 0){
+                        exit("Ip-adressen matchar ingen geografisk plats. Denna vädertjänst redovisar inga cyberväder");
+                    }
+            } else {
+                exit("Du matade in en felaktig ip-adress!");
             }
         } else {
             $this->weatherobject["latitude"]= $latitude;
@@ -63,7 +68,8 @@ class DarkSkyUmbrella
             list($this->weatherobject["country"], $this->weatherobject["city"]) = $this->OSMR->OSMCheckCoordinates($longitude, $latitude);
         }
 
-        $this->weatherobject["weatherresult"] = $this->darkSky->weather($this->weatherobject["longitude"], $this->weatherobject["latitude"]);
+        $this->weatherobject["weatherresult"] = $this->darkSky->weather($this->weatherobject["longitude"],
+            $this->weatherobject["latitude"], $type);
 
         return $this->weatherobject;
     }
