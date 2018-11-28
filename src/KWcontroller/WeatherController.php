@@ -30,15 +30,15 @@ class WeatherController implements ContainerInjectableInterface
     /*
     * @return object
     */
-   public function restinfoActionGet()
-   {
-       $page = $this->di->get("page");
-       $page->add("anax/v2/weather/restinfo");
+    public function restinfoActionGet()
+    {
+        $page = $this->di->get("page");
+        $page->add("anax/v2/weather/restinfo");
 
-       return $page->render([
-           "title"=>"Väder"
-       ]);
-   }
+        return $page->render([
+            "title"=>"Väder"
+        ]);
+    }
 
 
     /**
@@ -97,5 +97,4 @@ class WeatherController implements ContainerInjectableInterface
 
         return $res;
     }
-
 }

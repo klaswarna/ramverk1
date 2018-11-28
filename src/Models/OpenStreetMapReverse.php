@@ -10,14 +10,15 @@ class OpenStreetMapReverse
      * @return array
      */
 
-     public function __construct () {
-         $this->apiKeys = new \KW\config\ApiKeys;
-         $this->accessKey = $this->apiKeys->openStreetMap;
-         $this->baseUrl = "https://nominatim.openstreetmap.org/reverse?";
+    public function __construct()
+    {
+        $this->apiKeys = new \KW\config\ApiKeys;
+        $this->accessKey = $this->apiKeys->openStreetMap;
+        $this->baseUrl = "https://nominatim.openstreetmap.org/reverse?";
     }
 
 
-    public function OSMCheckCoordinates($longitude, $latitude)
+    public function osmCheckCoordinates($longitude, $latitude)
     {
         $url = ($this->baseUrl . $this->accessKey . "&format=json&lat=" . $latitude . "&lon=" . $longitude . "&addressdetails=1");
         $cURL = new CURL;

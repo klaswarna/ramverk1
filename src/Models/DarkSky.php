@@ -10,7 +10,8 @@ class DarkSky
      * @return json
      */
 
-    public function __construct () {
+    public function __construct()
+    {
         $this->apiKeys = new \KW\config\ApiKeys;
         $this->darkSkyKey = $this->apiKeys->darkSky;
         $this->baseUrl = "https://api.darksky.net/forecast/";
@@ -29,7 +30,6 @@ class DarkSky
                 $result["error"] = "kuken";
                 $result["daily"]["data"][0] = "no info";
                 $result = json_decode(json_encode($result));
-
             }
             return $result;
         } else {
@@ -37,7 +37,6 @@ class DarkSky
 
             $result = $multi->multicurla($longitude, $latitude);
             return $result;
-
         }
     }
 }

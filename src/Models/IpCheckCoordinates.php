@@ -10,10 +10,11 @@ class IpCheckCoordinates
      * @return array
      */
 
-     public function __construct () {
-         $this->apiKeys = new \KW\config\ApiKeys;
-         $this->ipCheckKey = $this->apiKeys->ipCheck;
-         $this->baseUrl = "http://api.ipstack.com/";
+    public function __construct()
+    {
+        $this->apiKeys = new \KW\config\ApiKeys;
+        $this->ipCheckKey = $this->apiKeys->ipCheck;
+        $this->baseUrl = "http://api.ipstack.com/";
     }
 
 

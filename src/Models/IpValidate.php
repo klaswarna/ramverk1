@@ -5,7 +5,6 @@ namespace KW\Models;
 use Anax\Commons\ContainerInjectableInterface;
 use Anax\Commons\ContainerInjectableTrait;
 
-
 /**
  * Verfies wether an ip address is valid or not
  *

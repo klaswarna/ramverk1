@@ -7,9 +7,6 @@ namespace Anax\View;
 <?php if (isset($res["error"])) {
     echo($res["error"]);
 } else { ?>
-
-
-
 <p>Väderresultat med början <?=($res["type"] == "future" ? "idag" : "för 30 dagar sedan") ?>:</p>
 
 
@@ -20,8 +17,8 @@ namespace Anax\View;
 <th>Högsta temperatur</th>
 <th>Lägsta temperatur</th>
 <th>Vindstyrka</th>
-<?php
-foreach ($res["weatherresult"]->daily->data as $key => $value) { ?>
+    <?php
+    foreach ($res["weatherresult"]->daily->data as $key => $value) { ?>
     <tr>
         <td><?=$key?></td>
 
@@ -31,7 +28,7 @@ foreach ($res["weatherresult"]->daily->data as $key => $value) { ?>
         <td><?=$value->windSpeed ?? "---"?></td>
     </tr>
 
-<?php } ?>
+    <?php } ?>
 
 </table>
 Stad: <?=$res["city"]?><br>
