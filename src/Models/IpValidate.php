@@ -2,10 +2,24 @@
 
 namespace KW\Models;
 
-class IpValidate
+use Anax\Commons\ContainerInjectableInterface;
+use Anax\Commons\ContainerInjectableTrait;
+
+
+/**
+ * Verfies wether an ip address is valid or not
+ *
+ */
+
+class IpValidate implements ContainerInjectableInterface
 {
+    use ContainerInjectableTrait;
+
+
     /**
      * Verify an ip-adress is valid
+     *
+     * @param string $ipnumber to verify
      *
      * @return boolean
      */

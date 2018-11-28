@@ -6,10 +6,10 @@ class DarkSkyUmbrella
 {
 
     /**
-    * @var array $ipobjekt array med info om ett ipnummer
+    * @var array $wobj array med info om ett ipnummer, koordinater samt ev väderresultat
     */
 
-    public $weatherobject = array(
+    public $wobj = array(
         "ip"=>"",
         "valid"=>false,
         "type" => "",
@@ -20,22 +20,6 @@ class DarkSkyUmbrella
         "weatherresult"=>[]
     );
 
-    protected $ipValidate;
-    protected $ipType;
-    protected $ipCheckCoordinates;
-    protected $OSMR;
-    protected $darkSky;
-
-    public function __construct()
-    {
-        $this->ipValidate = new IpValidate;
-        $this->ipType = new IpType;
-        $this->ipCheckCoordinates = new IpCheckCoordinates;
-        $this->OSMR = new OpenStreetMapReverse;
-        $this->darkSky = new DarkSky;
-    }
-
-
     /**
      * Get url-type according to type and position to send to Dark Sky
      *
@@ -43,34 +27,46 @@ class DarkSkyUmbrella
      */
     public function input($longitude, $latitude, $type, $ipn)
     {
+        $ipValidate = new IpValidate;
+        $ipCheckCoordinates = new IpCheckCoordinates;
+        $OSMR = new OpenStreetMapReverse;
+        $darkSky = new DarkSky;
+
         if (($longitude == "" or $latitude == "") and $ipn=="") {
-            exit("Du måste mata in longitud och latitud!");
+            $this->wobj["error"] = "Du måste ange korrekt longitud och latitud om ipnummer ej anges!";
+            return $this->wobj;
+
         };
         if (abs($longitude) >= 180 or abs($latitude) >= 90) {
-            exit("Du matade in en felaktiga kooridnater!");
+            $this->wobj["error"] = "Du angav in felaktiga kooridnater!";
+            return $this->wobj;
         };
-        $this->weatherobject["type"] = $type;
+        $this->wobj["type"] = $type;
         if ($ipn != "") {
-            $this->weatherobject["valid"] = $this->ipValidate->validate($ipn);    
-            if ($this->weatherobject["valid"]) {
-                list($this->weatherobject["latitude"], $this->weatherobject["longitude"],
-                    $this->weatherobject["country"], $this->weatherobject["city"])
-                    = $this->ipCheckCoordinates->ipCheckCoordinates($ipn);
-                    if ($this->weatherobject["country"] == "" and $this->weatherobject["latitude"] == 0 and $this->weatherobject["latitude"] == 0){
-                        exit("Ip-adressen matchar ingen geografisk plats. Denna vädertjänst redovisar inga cyberväder");
+
+            $this->wobj["valid"] = $ipValidate->validate($ipn);
+
+            if ($this->wobj["valid"]) {
+                list($this->wobj["latitude"], $this->wobj["longitude"],
+                    $this->wobj["country"], $this->wobj["city"])
+                    = $ipCheckCoordinates->ipCheckCoordinates($ipn);
+                    if ($this->wobj["country"] == "" and $this->wobj["latitude"] == 0 and $this->wobj["latitude"] == 0){
+                        $this->wobj["error"] = "Ip-adressen matchar ingen geografisk plats. Denna vädertjänst redovisar inga cyberväder";
+                        return $this->wobj;
                     }
             } else {
-                exit("Du matade in en felaktig ip-adress!");
+                $this->wobj["error"] = "Du angav en felaktig ip-adress!";
+                return $this->wobj;
             }
         } else {
-            $this->weatherobject["latitude"]= $latitude;
-            $this->weatherobject["longitude"] = $longitude;
-            list($this->weatherobject["country"], $this->weatherobject["city"]) = $this->OSMR->OSMCheckCoordinates($longitude, $latitude);
+            $this->wobj["latitude"]= $latitude;
+            $this->wobj["longitude"] = $longitude;
+            list($this->wobj["country"], $this->wobj["city"]) = $OSMR->OSMCheckCoordinates($longitude, $latitude);
         }
 
-        $this->weatherobject["weatherresult"] = $this->darkSky->weather($this->weatherobject["longitude"],
-            $this->weatherobject["latitude"], $type);
+        $this->wobj["weatherresult"] = $darkSky->weather($this->wobj["longitude"],
+            $this->wobj["latitude"], $type);
 
-        return $this->weatherobject;
+        return $this->wobj;
     }
 }

@@ -26,3 +26,6 @@ namespace Anax\View;
     Longitud:<input type="number" step="any" name="longitude"> &nbsp; &nbsp; Latitud:<input type="number" step="any" name="latitude">
     <input type="submit" name="knapp" value="Kolla väder (koordinater)">
 </form>
+
+<br><br>
+<a href="<?=url("weather/restinfo")?>"> Tryck här om du vill ha info om den jämsides existerande coola rest-api-väder-tjänsten </a>

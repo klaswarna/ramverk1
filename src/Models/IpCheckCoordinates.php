@@ -21,11 +21,6 @@ class IpCheckCoordinates
     {
         $accessKey = $this->ipCheckKey;
         $url = ($this->baseUrl . $ipnumber . "?access_key=" . $accessKey);
-        //$curl = curl_init();
-        //curl_setopt($curl, CURLOPT_URL, "http://api.ipstack.com/" . $ipnumber . "?access_key=" . $accessKey);
-        //curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        //$result = curl_exec($curl);
-        //curl_close($curl);
 
         $cURL = new CURL;
         $result = $cURL->req($url);

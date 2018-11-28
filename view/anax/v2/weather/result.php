@@ -4,10 +4,18 @@ namespace Anax\View;
 
 ?>
 
+<?php if (isset($res["error"])) {
+    echo($res["error"]);
+} else { ?>
+
+
+
 <p>Väderresultat med början <?=($res["type"] == "future" ? "idag" : "för 30 dagar sedan") ?>:</p>
+
+
 <table class="lilltabell">
 <th>dag</th>
-<th>time</th>
+
 <th>Vädersummering</th>
 <th>Högsta temperatur</th>
 <th>Lägsta temperatur</th>
@@ -16,8 +24,8 @@ namespace Anax\View;
 foreach ($res["weatherresult"]->daily->data as $key => $value) { ?>
     <tr>
         <td><?=$key?></td>
-        <td><?=$value->time?></td>
-        <td><?=$value->summary ?? "---"?></td>
+
+        <td><?=$value->summary ?? "no data available"?></td>
         <td><?=$value->temperatureHigh ?? "---" ?></td>
         <td><?=$value->temperatureLow ?? "---"?></td>
         <td><?=$value->windSpeed ?? "---"?></td>
@@ -37,6 +45,8 @@ Land: <?=$res["country"]?>
 
 
 <div id="demoMap" style="height:250px; width:250px"></div>
+
+
 <script src="http://www.openlayers.org/api/OpenLayers.js"></script>
 <script>
     var latitude = document.getElementById("latitude").innerText;
@@ -64,3 +74,4 @@ Land: <?=$res["country"]?>
     map.setCenter (lonLat, zoom);
 
 </script>
+<?php } ?>

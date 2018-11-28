@@ -22,11 +22,23 @@ class WeatherController implements ContainerInjectableInterface
     {
         $page = $this->di->get("page");
         $page->add("anax/v2/weather/formular");
-
         return $page->render([
             "title"=>"Väder"
         ]);
     }
+
+    /*
+    * @return object
+    */
+   public function restinfoActionGet()
+   {
+       $page = $this->di->get("page");
+       $page->add("anax/v2/weather/restinfo");
+
+       return $page->render([
+           "title"=>"Väder"
+       ]);
+   }
 
 
     /**
@@ -58,6 +70,32 @@ class WeatherController implements ContainerInjectableInterface
         return $page->render([
             "title" => "Väderresultat"
             ]);
+    }
+
+
+    /**
+    * Return weather from restfully
+    *
+    * @return object
+    */
+    public function restActionGet() : array
+    {
+        $longitude = null;
+        $latitude = null;
+        $ipn = "";
+        $longitude = $this->di->get("request")->getGet("lon");
+        $latitude = $this->di->get("request")->getGet("lat");
+        $type = $this->di->get("request")->getGet("type");
+        $ipn = $this->di->get("request")->getGet("ipn");
+
+        $darkSkyUmbrella = new \KW\Models\DarkSkyUmbrella;
+        //$jsonWeather = new \KW\Models\JsonWeather;
+        $jsonWeather = $this->di->get("jsonWeather");
+
+        $res1 = $darkSkyUmbrella->input($longitude, $latitude, $type, $ipn);
+        $res = $jsonWeather->jsonify($res1);
+
+        return $res;
     }
 
 }
