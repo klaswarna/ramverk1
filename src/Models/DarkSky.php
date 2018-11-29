@@ -27,13 +27,13 @@ class DarkSky
             $result = $cURL->req($url);
             $result = json_decode($result);
             if ($result == null) {
-                $result["error"] = "kuken";
+                $result["error"] = "något blev fel";
                 $result["daily"]["data"][0] = "no info";
                 $result = json_decode(json_encode($result));
             }
             return $result;
         } else {
-            $multi = new MultiCurl;
+            $multi = new MultiCURL;
 
             $result = $multi->multicurla($longitude, $latitude);
             return $result;

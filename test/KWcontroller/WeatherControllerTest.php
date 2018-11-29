@@ -193,18 +193,20 @@ class WeatherControllerTest extends TestCase
     {
         $jsonWeather = new \KW\Models\JsonWeather();
 
-        $data = ["hej", "hopp"];
+        $data = ["hej" => "hopp"];
         $daily = ["data" => $data];
-        $daily = json_decode(json_encode($daily));
+        $sune = ["daily" => $daily];
+        $sune = json_decode(json_encode($sune));
         $input = [
             "latitude"=>"23",
             "longitude"=>"23",
             "type"=>"future",
             "country"=>"Sverige",
             "town"=>"Stockholm",
-            "weatherresult" => $daily,
+            "weatherresult" => $sune,
         ];
 
+        
         $res = $jsonWeather->jsonify($input);
 
         $this->assertInternalType("array", $res);
