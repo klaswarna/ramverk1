@@ -56,7 +56,7 @@ class WeatherController implements ContainerInjectableInterface
         $type = $this->di->get("request")->getGet("type");
         $ipn = $this->di->get("request")->getGet("ipnummer");
 
-        $darkSkyUmbrella = new \KW\Models\DarkSkyUmbrella;
+        $darkSkyUmbrella = new \KW\Models\DarkSkyUmbrella($this->di);
 
         $res = $darkSkyUmbrella->input($longitude, $latitude, $type, $ipn);
 
@@ -88,7 +88,7 @@ class WeatherController implements ContainerInjectableInterface
         $type = $this->di->get("request")->getGet("type");
         $ipn = $this->di->get("request")->getGet("ipn");
 
-        $darkSkyUmbrella = new \KW\Models\DarkSkyUmbrella;
+        $darkSkyUmbrella = new \KW\Models\DarkSkyUmbrella($this->di);
         //$jsonWeather = new \KW\Models\JsonWeather;
         $jsonWeather = $this->di->get("jsonWeather");
 

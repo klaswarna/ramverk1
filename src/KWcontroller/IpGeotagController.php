@@ -42,11 +42,8 @@ class IpGeotagController implements ContainerInjectableInterface
     {
         $ipn = $this->di->get("request")->getGet("ipnummer");
         $res =[];
-        //$res["ip-number"] = $ipn;
-        //$res["valid"] = $valid;
 
-
-        $paraply = new \KW\Models\IpUmbrella;
+        $paraply = new \KW\Models\IpUmbrella($this->di);
         $res = $paraply->input($ipn);
 
         $page = $this->di->get("page");
@@ -63,7 +60,7 @@ class IpGeotagController implements ContainerInjectableInterface
     {
         $ipn = $this->di->get("request")->getPost("ipnummer");
         $res =[];
-        $paraply = new \KW\Models\IpUmbrella;
+        $paraply = new \KW\Models\IpUmbrella($this->di);
         $res = $paraply->input($ipn);
 
         if ($res["latitude"]) {

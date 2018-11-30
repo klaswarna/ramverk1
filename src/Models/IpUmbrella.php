@@ -25,12 +25,13 @@ class IpUmbrella
     protected $ipDomainname;
     protected $ipCheckCoordinates;
 
-    public function __construct()
+    public function __construct($di)
     {
-        $this->ipValidate = new IpValidate;
-        $this->ipType = new IpType;
-        $this->ipDomainname = new IpDomainname;
-        $this->ipCheckCoordinates = new IpCheckCoordinates;
+        $this->di = $di;
+        $this->ipValidate = new IpValidate($this->di);
+        $this->ipType = new IpType($this->di);
+        $this->ipDomainname = new IpDomainname($this->di);
+        $this->ipCheckCoordinates = new IpCheckCoordinates($this->di);
     }
 
     /**

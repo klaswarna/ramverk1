@@ -10,17 +10,22 @@ class IpCheckCoordinates
      * @return array
      */
 
-    public function __construct()
+    public function __construct($di)
     {
-        $this->apiKeys = new \KW\config\ApiKeys;
-        $this->ipCheckKey = $this->apiKeys->ipCheck;
+        $this->di = $di;
+        //$this->ipCheckKey = $this->apiKeys->ipCheck;
         $this->baseUrl = "http://api.ipstack.com/";
+        $this->apiKeys = $this->di->get("apikeys")["config"]["ipCheck"];
     }
 
-
+    /**
+     * Check ip-type
+     *
+     * @return array containing coordinates, country and town for IP if available
+     */
     public function ipCheckCoordinates(string $ipnumber)
     {
-        $accessKey = $this->ipCheckKey;
+        $accessKey = $this->apiKeys;
         $url = ($this->baseUrl . $ipnumber . "?access_key=" . $accessKey);
 
         $cURL = new CURL;
@@ -30,10 +35,3 @@ class IpCheckCoordinates
         return array($result->latitude, $result->longitude, $result->country_name, $result->city);
     }
 }
-
-
-/* om man skulle vilja kolla post
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS,
-            "postvar1=value1&postvar2=value2&postvar3=value3");
-*/

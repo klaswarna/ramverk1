@@ -23,6 +23,9 @@ class IpWebController implements ContainerInjectableInterface
         $page = $this->di->get("page");
         $page->add("anax/v2/ipweb/default");
 
+        //echo($this->di->get("apikeys")["config"]["darkSky"]);
+        //die;
+
         return $page->render([
             "title"=>"Mata in ipnummer"
         ]);

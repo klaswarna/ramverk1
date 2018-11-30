@@ -9,10 +9,10 @@ class MultiCURL
     */
 
 
-    public function __construct()
+    public function __construct($di)
     {
-        $this->apiKeys = new \KW\config\ApiKeys;
-        $this->darkSkyKey = $this->apiKeys->darkSky;
+        $this->di = $di;
+        $this->darkSkyKey = $this->di->get("apikeys")["config"]["darkSky"];
         $this->baseUrl = "https://api.darksky.net/forecast/";
         $this->apiSettings = "?lang=sv&units=si";
     }

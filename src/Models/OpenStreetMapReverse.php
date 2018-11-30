@@ -10,10 +10,10 @@ class OpenStreetMapReverse
      * @return array
      */
 
-    public function __construct()
+    public function __construct($di)
     {
-        $this->apiKeys = new \KW\config\ApiKeys;
-        $this->accessKey = $this->apiKeys->openStreetMap;
+        $this->di = $di;
+        $this->accessKey = $this->di->get("apikeys")["config"]["openStreetMap"];
         $this->baseUrl = "https://nominatim.openstreetmap.org/reverse?";
     }
 

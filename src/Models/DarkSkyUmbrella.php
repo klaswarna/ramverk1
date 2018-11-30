@@ -20,6 +20,16 @@ class DarkSkyUmbrella
         "weatherresult"=>[]
     );
 
+    public function __construct($di)
+    {
+        $this->di = $di;
+        $this->ipValidate = new IpValidate($this->di);
+        $this->ipDomainname = new IpDomainname($this->di);
+        $this->ipCheckCoordinates = new IpCheckCoordinates($this->di);
+        $this->osmr = new OpenStreetMapReverse($this->di);
+        $this->darkSky = new DarkSky($this->di);
+    }
+
     /**
      * Get url-type according to type and position to send to Dark Sky
      *
@@ -27,27 +37,18 @@ class DarkSkyUmbrella
      */
     public function input($longitude, $latitude, $type, $ipn)
     {
-        $ipValidate = new IpValidate;
-        $ipCheckCoordinates = new IpCheckCoordinates;
-        $osmr = new OpenStreetMapReverse;
-        $darkSky = new DarkSky;
-
-        /*if (($longitude == "" or $latitude == "") and $ipn=="") {
-            $this->wobj["error"] = "Du måste ange korrekt longitud och latitud om ipnummer ej anges!";
-            return $this->wobj;
-        };*/
         if (abs($longitude) >= 180 or abs($latitude) >= 90) {
             $this->wobj["error"] = "Du angav in felaktiga kooridnater!";
             return $this->wobj;
         };
         $this->wobj["type"] = $type;
         if ($ipn != "") {
-            $this->wobj["valid"] = $ipValidate->validate($ipn);
+            $this->wobj["valid"] = $this->ipValidate->validate($ipn);
 
             if ($this->wobj["valid"]) {
                 list($this->wobj["latitude"], $this->wobj["longitude"],
                     $this->wobj["country"], $this->wobj["city"])
-                    = $ipCheckCoordinates->ipCheckCoordinates($ipn);
+                    = $this->ipCheckCoordinates->ipCheckCoordinates($ipn);
                 if ($this->wobj["country"] == "" and $this->wobj["latitude"] == 0 and $this->wobj["latitude"] == 0) {
                     $this->wobj["error"] = "Ip-adressen matchar ingen geografisk plats. Denna vädertjänst redovisar inga cyberväder";
                     return $this->wobj;
@@ -63,9 +64,9 @@ class DarkSkyUmbrella
             }
             $this->wobj["latitude"]= $latitude;
             $this->wobj["longitude"] = $longitude;
-            list($this->wobj["country"], $this->wobj["city"]) = $osmr->osmCheckCoordinates($longitude, $latitude);
+            list($this->wobj["country"], $this->wobj["city"]) = $this->osmr->osmCheckCoordinates($longitude, $latitude);
         }
-        $this->wobj["weatherresult"] = $darkSky->weather($this->wobj["longitude"], $this->wobj["latitude"], $type);
+        $this->wobj["weatherresult"] = $this->darkSky->weather($this->wobj["longitude"], $this->wobj["latitude"], $type);
 
         return $this->wobj;
     }
