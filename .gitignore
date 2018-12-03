@@ -1,7 +1,5 @@
 /.bin
 /build
 /vendor
-/src/Models/access_key.php
-/src/config/ApiKeys.php
 memory::
 composer.lock

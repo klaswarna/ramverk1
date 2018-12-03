@@ -191,7 +191,8 @@ class WeatherControllerTest extends TestCase
      */
     public function testJsonWeather()
     {
-        $jsonWeather = new \KW\Models\JsonWeather();
+        //$jsonWeather = new \KW\Models\JsonWeather();
+        $jsonWeather = $this->di->get("jsonWeather");
 
         $data = ["hej" => "hopp"];
         $daily = ["data" => $data];
@@ -206,7 +207,7 @@ class WeatherControllerTest extends TestCase
             "weatherresult" => $sune,
         ];
 
-        
+
         $res = $jsonWeather->jsonify($input);
 
         $this->assertInternalType("array", $res);
