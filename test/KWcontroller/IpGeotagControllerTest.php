@@ -38,37 +38,6 @@ class IpGeotagControllerTest extends TestCase
     }
 
 
-
-    /**
-     * Test the route "index".
-     */
-    public function testIndexActionGet()
-    {
-        $res = $this->controller->indexActionGet();
-        $this->assertInstanceOf("\Anax\Response\Response", $res);
-
-        $body = $res->getBody();
-        $exp = "| ramverk1</title>";
-        $this->assertContains($exp, $body);
-    }
-
-
-
-    /**
-     * Test the route result with valid number
-     */
-    public function testResultActionGet()
-    {
-        $this->di->get("request")->setGet("ipnummer", "123.123.123.123");
-        $res = $this->controller->resultActionGet();
-        $this->assertInstanceOf("\Anax\Response\Response", $res);
-        $this->assertInternalType("object", $res);
-
-        $body = $res->getBody();
-        $exp = "| ramverk1</title>";
-        $this->assertContains($exp, $body);
-    }
-
     /**
      * Test the route "index".
      */

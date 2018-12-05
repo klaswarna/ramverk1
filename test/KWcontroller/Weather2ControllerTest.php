@@ -39,18 +39,6 @@ class Weather2ControllerTest extends TestCase
     }
 
 
-    /**
-     * Test the route "restinfo".
-     */
-    public function testRestinfoActionGet()
-    {
-        $res = $this->controller->restinfoActionGet();
-        $this->assertInstanceOf("\Anax\Response\Response", $res);
-
-        $body = $res->getBody();
-        $exp = "| ramverk1</title>";
-        $this->assertContains($exp, $body);
-    }
 
 
     /**
@@ -62,9 +50,5 @@ class Weather2ControllerTest extends TestCase
         //$this->assertInstanceOf("\Anax\Response\Response", $res);
 
         $this->assertInternalType("array", $res);
-
-        //$json = $res[0];
-        //$exp = [];
-        //$this->assertContains($exp, $json["daily"]);
     }
 }
