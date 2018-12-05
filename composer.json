@@ -14,7 +14,7 @@
         "anax/anax-ramverk1-me": "^1.0.0",
         "anax/remserver": "^2.1",
         "anax/anax-cli": "^1.1",
-        "klasse-w/ip-weather-service": "^1.0"
+        "klasse-w/ip-weather-service": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^7"
