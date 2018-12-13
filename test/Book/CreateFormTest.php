@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Test the SampleController.
  */
-class CreateForm extends TestCase
+class CreateFormTest extends TestCase
 {
 
     // Create the di container.

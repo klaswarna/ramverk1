@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Test the SampleController.
  */
-class CreateForm extends TestCase
+class DeleteFormTest extends TestCase
 {
 
     // Create the di container.
@@ -36,10 +36,10 @@ class CreateForm extends TestCase
         $this->models = new \KW\Book\HTMLForm\DeleteForm($di);
     }
 
-/*    public function testCallbackSubmit()
+    public function testCallbackSubmit()
     {
         $res = $this->models->callbackSubmit();
 
         $this->assertInternalType("bool", $res);
     }
-}*/
+}
